@@ -5,6 +5,9 @@ This project uses KMK (https://github.com/KMKfw/kmk_firmware)...specifically the
 
 To load the firmware, copy boot.py, kb.py, main.py and kmk (the whole folder) to you Rasberry Pi Pico (which should already be running Circuitpython).
 
+<h2>KMK (folder)</h2>
+the kmk folder contains the files needed to run kmk.  the version bundled with this project is known to work.  kmk changes from time to time, updates may break this project.
+
 <h2>BOOT.PY</h2>
 Boot information, no need to make edits.
 
@@ -18,3 +21,5 @@ main.py contains the "juice" of the controller.  edit the custom key, encoder an
 
 <u>custom key definitions:</u> define your own custom keys using the same method as declaring a variable.
 <p><i> custom key = key code (or key code chain) </i></p>
+
+
