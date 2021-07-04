@@ -6,24 +6,52 @@ from kmk.handlers.sequences import send_string, simple_key_sequence
 import board
 import digitalio
 
-# local_increment = None
-# local_decrement = None
-
 keyboard = KMKKeyboard()
 
-# custom keys used for encoder actions
-Zoom_in = KC.LCTL(KC.EQUAL)
-Zoom_out = KC.LCTL(KC.MINUS)
+# CUSTOM KEY DEFINITIONS
+#   these are separated into "SWITCHES" and "ROTARIES" for organization only. Functionally, they are
+#   identical in that any key function can be placed on either a switch or rotary increment/decrement.
+#   EX: VolumeUp could be assinged to a switch and/or rotary direction.
+#
+#   Key codes can be found at https://raw.githubusercontent.com/KMKfw/kmk_firmware/master/docs/keycodes.md
+#
+#   MAC OS:
+#           Control key = LCTL
+#           Option key = LALT or RALT
+#           Command key = LGUI or RGUI
+#-----------------------------------------------------------------------------------------------------
+## SWITCHES
+_______ = KC.TRNS                       # transparent space in layer map (uses function on lower map)
+XXXXXXX = KC.NO                         # no key info, no response to activation of switch
+AudioFX = KC.LALT(KC.LGUI(KC.E))        # apply default audio effect
+_Blade_ = KC.LGUI(KC.B)                 # cut clip
+_Copy__ = KC.LGUI(KC.C)                 # copy selection
+DefTrns = KC.LGUI(KC.T)                 # apply default transition
+Delete_ = KC.DEL                        # delete selection
+Exp_Aud = KC.LCTL(KC.LALT(KC.S))        # expand/contract audio components
+KeyFram = KC.LALT(KC.K)                 # mark keyframe
+Marker_ = KC.M                          # place a marker
+_Paste_ = KC.LGUI(KC.V)                 # paste contents of clipboard
+Rng_In_ = KC.I                          # mark range start
+Rng_Out = KC.O                          # mark range end
+## ROTARIES
+CoarseSF = KC.LSFT(KC.RGHT)             # coarse scrub forward
+CoarseSR = KC.LSFT(KC.LEFT)             # coarse scrub reverse
+FineSFwd = KC.RGHT                      # fine scrub forward
+FineSRev = KC.LEFT                      # fine scrub reverse
+VolumeUp = KC.LCTL(KC.EQUAL)            # raise volume of selection +1dB
+VolumeDn = KC.LCTL(KC.MINUS)            # lower volume of selection -1dB
+_ZoomIn_ = KC.LCTL(KC.EQUAL)
+_ZoomOut = KC.LCTL(KC.MINUS)
 
-# standard filler keys
-_______ = KC.TRNS
-XXXXXXX = KC.NO
-
-# for use in the encoder extension
+# Encoder map
 encoder_map = [
     [# LAYER 1
-        (Zoom_in,Zoom_out,2), (Zoom_in,Zoom_out,2), (Zoom_in,Zoom_out,2)
-    ]
+        (CoarseSF,CoarseSR,2), (FineSFwd,FineSRev,2), (VolumeUp,VolumeDn,2)
+    ],
+    [# LAYER 2
+        (CoarseSF,CoarseSR,2), (FineSFwd,FineSRev,2), (_ZoomIn_,_ZoomOut,2)
+    ],
 ]
 
 layers_ext = Layers()
@@ -38,12 +66,17 @@ keyboard.modules = [layers_ext, encoder_ext]
 keyboard.tap_time = 250
 keyboard.debug_enabled = False
 
-# make keymap
+# KEYMAP
 keyboard.keymap = [
-    [# LAYER 1
-        KC.ESC, KC.N1,  KC.N2,  KC.N3,  KC.N4,
-        KC.N5,  KC.N6,  KC.N7,  KC.N8,  KC.N9,
-        KC.Q,   KC.W,   KC.E,   KC.R,   KC.T,
+    [# LAYER 0 The default layer
+        _Copy__,    Rng_In_,    AudioFX,    XXXXXXX,    Delete_,
+        _Paste_,    Rng_Out,    DefTrns,    XXXXXXX,    XXXXXXX,
+        KC.MO(1),   KC.SPACE,   Marker_,    KeyFram,    XXXXXXX,
+    ],
+    [# LAYER 1 The first alternative layer
+        _Copy__,    Rng_In_,    AudioFX,    XXXXXXX,    Delete_,
+        _Paste_,    Rng_Out,    DefTrns,    XXXXXXX,    XXXXXXX,
+        _______,    _Blade_,    Marker_,    KeyFram,    XXXXXXX,
     ],
 ]
 
