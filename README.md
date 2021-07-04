@@ -17,4 +17,4 @@ If you are drafting new schematics, you'll need to edit kb.py with your specific
 main.py contains the "juice" of the controller.  edit the custom key, encoder and layers definitions as needed.
 
 <u>custom key definitions:</u> define your own custom keys using the same method as declaring a variable.
-<i> custom key = key code (or key code chain) </i>
+<p><i> custom key = key code (or key code chain) </i></p>
